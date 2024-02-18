@@ -1,0 +1,7 @@
+mk_rom
+rom_unpatched.bin
+rom.bin
+rom.cpp
+rom.map
+obj/*.o
+obj/*.o.list
