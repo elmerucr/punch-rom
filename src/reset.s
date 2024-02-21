@@ -6,7 +6,7 @@
 
 		section	TEXT
 
-rom_version:	db	'rom v0.2 20240110',0
+rom_version:	db	'rom v0.2 20240119',0
 
 exc_reset:	; set stackpointers
 		lds	#$0400		; this write to sp will enable nmi's as well
@@ -14,8 +14,26 @@ exc_reset:	; set stackpointers
 
 		jsr	init_vectors
 
+		; set framebuffer base
+		lda	#$ff
+		sta	CORE_FB_BASE_1
+		sta	BLITTER_S_F+S_B_1
+		clra
+		clrb
+		std	CORE_FB_BASE_2
+		std	BLITTER_S_F+S_B_2
+
+		; set surface $f
+		ldd	#$0140
+		std	BLITTER_S_F+S_W
+		ldd	#$00b4
+		std	BLITTER_S_F+S_H
+
 		ldx	#test
 		stx	TIMER0_VECTOR_INDIRECT
+
+		lda	#$05		; blue drawing color initially
+		sta	$0e05
 
 		ldd	#100		; 100 bpm
 		std	TIMER0_BPM
@@ -29,11 +47,7 @@ exc_reset:	; set stackpointers
 
 .1		bra	.1		; endless loop
 
-test:		pshu	a
-		lda	$05f0
-		inca
-		sta	$05f0
-		pulu	a
+test:		inc	$0e05
 		rti
 
 init_vectors:	pshu	y,x,b,a

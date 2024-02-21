@@ -20,6 +20,43 @@ TIMER7_VECTOR_INDIRECT	equ	$011e
 CORE		equ	$0800
 CORE_SR		equ	CORE
 CORE_CR		equ	CORE+$01
+CORE_VRAM_PEEK	equ	CORE+$02
+CORE_FB_BASE_0	equ	CORE+$04
+CORE_FB_BASE_1	equ	CORE+$05
+CORE_FB_BASE_2	equ	CORE+$06
+CORE_FB_BASE_3	equ	CORE+$07
+
+; blitter
+BLITTER		equ	$0e00
+BLITTER_SR	equ	BLITTER
+BLITTER_CR	equ	BLITTER+$01
+BLITTER_SRC	equ	BLITTER+$02
+BLITTER_DST	equ	BLITTER+$03
+BLITTER_TILE	equ	BLITTER+$04
+BLITTER_COLOR	equ	BLITTER+$05
+BLITTER_X0	equ	BLITTER+$08
+BLITTER_Y0	equ	BLITTER+$0a
+BLITTER_X1	equ	BLITTER+$0c
+BLITTER_Y1	equ	BLITTER+$0e
+
+; blitter surfaces
+BLITTER_S_0	equ	$0400
+BLITTER_S_1	equ	$0410
+;
+;
+BLITTER_S_F	equ	$04f0
+
+S_X		equ	$0
+S_Y		equ	$2
+S_W		equ	$4
+S_H		equ	$6
+S_B_0		equ	$8
+S_B_1		equ	$9
+S_B_2		equ	$a
+S_B_3		equ	$b
+S_F_0		equ	$c
+S_F_1		equ	$d
+S_INDEX		equ	$f
 
 ; timer
 TIMER		equ	$0a00
