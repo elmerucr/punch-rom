@@ -1,3 +1,4 @@
+		global	punch_icon_0
 
 		section	RODATA
 

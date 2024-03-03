@@ -6,7 +6,7 @@
 
 		section	TEXT
 
-rom_version:	db	'rom v0.2 20240119',0
+rom_version:	db	'rom v0.2 20240303',0
 
 exc_reset:	; set stackpointers
 		lds	#$0400		; this write to sp will enable nmi's as well
@@ -23,11 +23,35 @@ exc_reset:	; set stackpointers
 		std	CORE_FB_BASE_2
 		std	BLITTER_S_F+S_B_2
 
-		; set surface $f
-		ldd	#$0140
+		; set surface $f (screen)
+		ldd	#$0140			; width
 		std	BLITTER_S_F+S_W
-		ldd	#$00b4
+		ldd	#$00b4			; height
 		std	BLITTER_S_F+S_H
+
+		; font in $e
+		ldd	#$0004
+		std	BLITTER_S_E+S_W
+		ldd	#$0006
+		std	BLITTER_S_E+S_H
+		lda	#%01110011
+		sta	BLITTER_S_E+S_F_0
+		clr	BLITTER_S_E+S_F_1
+
+		; text in $d
+		ldd	#$0004
+		std	BLITTER_S_D+S_W
+		std	BLITTER_S_D+S_H
+		ldd	#$40
+		std	BLITTER_S_D+S_X
+		std	BLITTER_S_D+S_Y
+		lda	#%00000010
+		sta	BLITTER_S_D+S_F_0
+		clr	BLITTER_S_D+S_B_0
+		clr	BLITTER_S_D+S_B_1
+puca:		ldx	#punch_icon_0
+		stx	BLITTER_S_D+S_B_2
+
 
 		ldx	#test
 		stx	TIMER0_VECTOR_INDIRECT

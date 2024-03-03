@@ -44,6 +44,8 @@ BLITTER_S_0	equ	$0400
 BLITTER_S_1	equ	$0410
 ;
 ;
+BLITTER_S_D	equ	$04d0
+BLITTER_S_E	equ	$04e0
 BLITTER_S_F	equ	$04f0
 
 S_X		equ	$0
