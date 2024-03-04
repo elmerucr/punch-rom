@@ -6,7 +6,7 @@
 
 		section	TEXT
 
-rom_version:	db	'rom v0.2 20240303',0
+rom_version:	db	'rom v0.2 20240304',0
 
 exc_reset:	; set stackpointers
 		lds	#$0400		; this write to sp will enable nmi's as well
@@ -29,37 +29,49 @@ exc_reset:	; set stackpointers
 		ldd	#$00b4			; height
 		std	BLITTER_S_F+S_H
 
-		; font in $e
-		ldd	#$0004
+		; logo in $e
+		ldd	#$0007
 		std	BLITTER_S_E+S_W
-		ldd	#$0006
+		ldd	#$0012
 		std	BLITTER_S_E+S_H
-		lda	#%01110011
+		lda	#%00010000
 		sta	BLITTER_S_E+S_F_0
-		clr	BLITTER_S_E+S_F_1
+		lda	#%00000001
+		sta	BLITTER_S_E+S_F_1
+		clr	BLITTER_S_E+S_B_0
+		clr	BLITTER_S_E+S_B_1
+		ldx	#punch_icon
+		stx	BLITTER_S_E+S_B_2
 
-		; text in $d
-		ldd	#$0004
-		std	BLITTER_S_D+S_W
-		std	BLITTER_S_D+S_H
-		ldd	#$40
-		std	BLITTER_S_D+S_X
-		std	BLITTER_S_D+S_Y
-		lda	#%00000010
-		sta	BLITTER_S_D+S_F_0
-		clr	BLITTER_S_D+S_B_0
-		clr	BLITTER_S_D+S_B_1
-puca:		ldx	#punch_icon_0
-		stx	BLITTER_S_D+S_B_2
+		ldd	#$99
+		std	BLITTER_S_E+S_X
+		ldd	#$51
+		std	BLITTER_S_E+S_Y
 
+		lda	#$11
+		sta	$05e1
+		lda	#$22
+		sta	$05e2
+		lda	#$33
+		sta	$05e3
+		lda	#$22
+		sta	$05e4
 
 		ldx	#test
 		stx	TIMER0_VECTOR_INDIRECT
 
-		lda	#$05		; blue drawing color initially
-		sta	$0e05
+yep:		ldx	#punch_icon
+.1		lda	,x
+		sta	,x
+		leax	1,x
+		cmpx	#punch_icon+31
+		bne	.1
 
-		ldd	#100		; 100 bpm
+
+		;lda	#$05		; blue drawing color initially
+		;sta	$0e05
+
+		ldd	#1000		; 100 bpm
 		std	TIMER0_BPM
 		lda	#%00000001
 		sta	TIMER_CR	; activate timer 0
@@ -69,9 +81,17 @@ puca:		ldx	#punch_icon_0
 
 		jsr	sound_reset
 
-.1		bra	.1		; endless loop
+.2		bra	.2		; endless loop
 
-test:		inc	$0e05
+test:		lda	$05e1
+		ldb	$05e2
+		stb	$05e1
+		ldb	$05e3
+		stb	$05e2
+		ldb	$05e4
+		stb	$05e3
+		sta	$05e4
+		;inc	$0e05
 		rti
 
 init_vectors:	pshu	y,x,b,a

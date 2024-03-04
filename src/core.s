@@ -7,12 +7,13 @@
 core_irq:
 	lda	#$0f		; refer to surface 7
 	sta	BLITTER_DST	; store in index1
+	clr	BLITTER_COLOR
 	lda	#%00000100	; clear surface
 	sta	BLITTER_CR
 	lda	#$0e
 	sta	BLITTER_SRC
-	lda	#$0d
-	sta	BLITTER_TILE
-	lda	#%00000010
+;	lda	#$0d
+;	sta	BLITTER_TILE
+	lda	#%00000001
 	sta	BLITTER_CR
 	rti
