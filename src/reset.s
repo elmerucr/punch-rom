@@ -6,7 +6,7 @@
 
 		section	TEXT
 
-rom_version:	db	'rom v0.2 20240304',0
+rom_version:	db	'punch rom v0.2 20240306',0
 
 exc_reset:	; set stackpointers
 		lds	#$0400		; this write to sp will enable nmi's as well
@@ -14,64 +14,72 @@ exc_reset:	; set stackpointers
 
 		jsr	init_vectors
 
-		; set framebuffer base
-		lda	#$ff
-		sta	CORE_FB_BASE_1
-		sta	BLITTER_S_F+S_B_1
-		clra
-		clrb
-		std	CORE_FB_BASE_2
-		std	BLITTER_S_F+S_B_2
-
-		; set surface $f (screen)
-		ldd	#$0140			; width
-		std	BLITTER_S_F+S_W
-		ldd	#$00b4			; height
-		std	BLITTER_S_F+S_H
-
-		; logo in $e
+		; setup logo in surface $c
 		ldd	#$0007
-		std	BLITTER_S_E+S_W
+		std	BLITTER_S_C+S_W
 		ldd	#$0012
-		std	BLITTER_S_E+S_H
+		std	BLITTER_S_C+S_H
 		lda	#%00010000
-		sta	BLITTER_S_E+S_F_0
+		sta	BLITTER_S_C+S_F_0
 		lda	#%00000001
-		sta	BLITTER_S_E+S_F_1
-		clr	BLITTER_S_E+S_B_0
-		clr	BLITTER_S_E+S_B_1
+		sta	BLITTER_S_C+S_F_1
+		clr	BLITTER_S_C+S_B_0
+		clr	BLITTER_S_C+S_B_1
 		ldx	#punch_icon
-		stx	BLITTER_S_E+S_B_2
+		stx	BLITTER_S_C+S_B_2
+		ldd	#153
+		std	BLITTER_S_C+S_X
+		ldd	#73
+		std	BLITTER_S_C+S_Y
 
-		ldd	#$99
-		std	BLITTER_S_E+S_X
-		ldd	#$51
-		std	BLITTER_S_E+S_Y
+		; tiles in $d
+		ldd	#$0005
+		std	BLITTER_S_D+S_W
+		ldd	#$0001
+		std	BLITTER_S_D+S_H
+		lda	#%00000010
+		sta	BLITTER_S_D+S_F_0
+		clr	BLITTER_S_D+S_F_1
+		clr	BLITTER_S_D+S_B_0
+		clr	BLITTER_S_D+S_B_1
+		ldx	#rom_version
+		stx	BLITTER_S_D+S_B_2
+		ldd	#151
+		std	BLITTER_S_D+S_X
+		ldd	#94
+		std	BLITTER_S_D+S_Y
 
+		lda	#$32
+		sta	$05d1
+
+		;lda	#$00
+		clr	$05c1
+		;lda	#$00
+		clr	$05c2
+		;lda	#$00
+		clr	$05c3
 		lda	#$11
-		sta	$05e1
+		sta	$05c4
 		lda	#$22
-		sta	$05e2
+		sta	$05c5
 		lda	#$33
-		sta	$05e3
+		sta	$05c6
 		lda	#$22
-		sta	$05e4
+		sta	$05c7
+		lda	#$11
+		sta	$05c8
 
 		ldx	#test
 		stx	TIMER0_VECTOR_INDIRECT
 
-yep:		ldx	#punch_icon
+; copy logo data
+		ldx	#$fe00
 .1		lda	,x
-		sta	,x
-		leax	1,x
-		cmpx	#punch_icon+31
+		sta	,x+
+		cmpx	#$0000
 		bne	.1
 
-
-		;lda	#$05		; blue drawing color initially
-		;sta	$0e05
-
-		ldd	#1000		; 100 bpm
+		ldd	#600		; 100 bpm
 		std	TIMER0_BPM
 		lda	#%00000001
 		sta	TIMER_CR	; activate timer 0
@@ -83,15 +91,15 @@ yep:		ldx	#punch_icon
 
 .2		bra	.2		; endless loop
 
-test:		lda	$05e1
-		ldb	$05e2
-		stb	$05e1
-		ldb	$05e3
-		stb	$05e2
-		ldb	$05e4
-		stb	$05e3
-		sta	$05e4
-		;inc	$0e05
+test:		lda	$05c1
+		ldx	#$05c2
+.1		ldb	,x
+		stb	,-x
+		leax	2,x
+		cmpx	#$05c9
+		bne	.1
+		sta	$05c8
+
 		rti
 
 init_vectors:	pshu	y,x,b,a
