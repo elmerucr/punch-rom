@@ -38,7 +38,7 @@ exc_irq_core_ri:	lda	#%00000010
 		bita	CORE_SR
 		beq	exc_irq_end
 		sta	CORE_SR
-		jmp	[CORE_RI_VECTOR_INDIRECT]
+		jmp	[CORE_LB_VECTOR_INDIRECT]
 exc_irq_end:	rti
 
 exc_swi:

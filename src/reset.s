@@ -83,9 +83,11 @@ exc_reset:	; set stackpointers
 		std	TIMER0_BPM
 		lda	#%00000001
 		sta	TIMER_CR	; activate timer 0
-		sta	CORE_CR		; activate core screen refresh irq
 
-		andcc	#%10101111	; enable firq/irq
+		lda	#%00000011	; core frame done & rom insert irq's
+		sta	CORE_CR
+
+		andcc	#%11101111	; enable irq's
 
 		jsr	sound_reset
 
@@ -135,4 +137,4 @@ vector_table:	dw	exc_illop
  		dw	timer7_irq
 
 		dw	core_fd_irq
-		dw	core_ri_irq
+		dw	core_lb_irq

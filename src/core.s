@@ -1,7 +1,7 @@
 		include	"definitions.i"
 
 		global	core_fd_irq
-		global	core_ri_irq
+		global	core_lb_irq
 
 		section	TEXT
 
@@ -25,7 +25,8 @@ core_fd_irq:
 	sta	BLITTER_CR
 	rti
 
-core_ri_irq:
+core_lb_irq:
+	; temp hack
 	lda	$04c1
 	adda	#$23
 	sta	$04c1
