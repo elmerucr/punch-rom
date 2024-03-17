@@ -110,7 +110,7 @@ init_vectors:	pshu	y,x,b,a
 		std	,y
 		leax	2,x
 		leay	2,y
-		cmpx	#vector_table+32
+		cmpx	#vector_table+36
 		bne	.1
 
 		pulu	y,x,b,a
@@ -123,7 +123,8 @@ vector_table:	dw	exc_illop
  		dw	exc_irq
  		dw	exc_swi
  		dw	exc_nmi
- 		dw	core_irq
+ 		dw	$0000
+
  		dw	timer0_irq
  		dw	timer1_irq
  		dw	timer2_irq
@@ -132,3 +133,6 @@ vector_table:	dw	exc_illop
  		dw	timer5_irq
  		dw	timer6_irq
  		dw	timer7_irq
+
+		dw	core_fd_irq
+		dw	core_ri_irq
