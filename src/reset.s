@@ -6,7 +6,7 @@
 
 		section	TEXT
 
-rom_version:	db	'punch rom v0.2 20240306',0
+rom_version:	db	'punch rom v0.2 20240317',0
 
 exc_reset:	; set stackpointers
 		lds	#$0400		; this write to sp will enable nmi's as well
@@ -73,7 +73,7 @@ exc_reset:	; set stackpointers
 		stx	TIMER0_VECTOR_INDIRECT
 
 ; copy logo data
-		ldx	#$fe00
+		ldx	#$fc00
 .1		lda	,x
 		sta	,x+
 		cmpx	#$0000

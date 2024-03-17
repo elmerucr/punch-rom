@@ -112,7 +112,7 @@ SID3V	equ	SID3+$1b
 ;ANA0	equ	SND+$04		; analog0 base
 ;ANA0P	equ	ANA0+$02
 
-SNDM	equ	SND+$180	; mixer base
+SNDM	equ	SND+$190	; mixer base
 SNDM0L	equ	SNDM+$00
 SNDM0R	equ	SNDM+$01
 SNDM1L	equ	SNDM+$02

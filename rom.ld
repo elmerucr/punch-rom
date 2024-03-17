@@ -1,4 +1,4 @@
-_ROM_START	= 0xfe00;
+_ROM_START	= 0xfc00;
 _RAM_START	= 0x0100;
 
 SECTIONS {
