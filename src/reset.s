@@ -6,7 +6,7 @@
 
 		section	TEXT
 
-rom_version:	db	'punch rom v0.2 20240317',0
+rom_version:	db	'punch rom v0.2 20240414',0
 
 exc_reset:	; set stackpointers
 		lds	#$0400		; this write to sp will enable nmi's as well
@@ -72,7 +72,7 @@ exc_reset:	; set stackpointers
 		ldx	#test
 		stx	TIMER0_VECTOR_INDIRECT
 
-; copy logo data
+; copy logo data (actually rom to vram so we have logo visible to blitter)
 		ldx	#$fc00
 .1		lda	,x
 		sta	,x+
@@ -91,7 +91,8 @@ exc_reset:	; set stackpointers
 
 		jsr	sound_reset
 
-.2		bra	.2		; endless loop
+.2		sync
+		bra	.2		; endless loop to sync
 
 test:		lda	$05c1
 		ldx	#$05c2
