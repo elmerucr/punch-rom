@@ -1,11 +1,11 @@
 		include	"definitions.i"
 
-		global	core_fd_irq
-		global	core_lb_irq
+		global	core_frame_done_irq
+		global	core_load_bin_irq
 
 		section	TEXT
 
-core_fd_irq:
+core_frame_done_irq:
 	lda	#$0f		; refer to surface 7
 	sta	BLITTER_DST	; store in index1
 	clr	BLITTER_COLOR
@@ -25,7 +25,7 @@ core_fd_irq:
 	sta	BLITTER_CR
 	rti
 
-core_lb_irq:
+core_load_bin_irq:
 	; temp hack
 	lda	$04c1
 	adda	#$23

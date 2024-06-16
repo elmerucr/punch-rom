@@ -6,7 +6,7 @@
 
 		section	TEXT
 
-rom_version:	db	'punch rom v0.2 20240414',0
+rom_version:	db	'punch rom v0.3 20240616',0
 
 exc_reset:	; set stackpointers
 		lds	#$0400		; this write to sp will enable nmi's as well
@@ -137,5 +137,5 @@ vector_table:	dw	exc_illop
  		dw	timer6_irq
  		dw	timer7_irq
 
-		dw	core_fd_irq
-		dw	core_lb_irq
+		dw	core_frame_done_irq
+		dw	core_load_bin_irq

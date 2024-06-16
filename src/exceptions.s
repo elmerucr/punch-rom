@@ -16,7 +16,7 @@ exc_swi2:
 exc_firq:	rti
 
 exc_irq:	lda	TIMER_SR
-		beq	exc_irq_core_fd	; no timer check for core
+		beq	exc_irq_core_frame_done	; no timer -> check for core irq
 		ldx	#TIMER0_VECTOR_INDIRECT	; it is the timer
 		lda	#%00000001
 exc_test_tim:	bita	TIMER_SR
@@ -27,18 +27,20 @@ exc_next_tim:	asla
 		beq	exc_irq_end
 		leax	2,x
 		bra	exc_test_tim
-exc_irq_core_fd:	lda	CORE_SR
+exc_irq_core_frame_done:
+		lda	CORE_SR
 		beq	exc_irq_end	; no core end irq
 		lda	#%00000001
 		bita	CORE_SR
 		beq	exc_irq_core_ri
 		sta	CORE_SR
-		jmp	[CORE_FD_VECTOR_INDIRECT]
-exc_irq_core_ri:	lda	#%00000010
+		jmp	[CORE_FRAME_DONE_VECTOR_INDIRECT]
+exc_irq_core_ri:
+		lda	#%00000010
 		bita	CORE_SR
 		beq	exc_irq_end
 		sta	CORE_SR
-		jmp	[CORE_LB_VECTOR_INDIRECT]
+		jmp	[CORE_LOAD_BIN_VECTOR_INDIRECT]
 exc_irq_end:	rti
 
 exc_swi:
