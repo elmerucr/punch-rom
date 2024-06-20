@@ -6,7 +6,7 @@
 
 		section	TEXT
 
-rom_version:	db	'punch rom v0.3 20240616',0
+rom_version:	db	'punch rom v0.3 20240620',0
 
 exc_reset:	; set stackpointers
 		lds	#$0400		; this write to sp will enable nmi's as well
@@ -69,7 +69,7 @@ exc_reset:	; set stackpointers
 		lda	#$11
 		sta	$05c8
 
-		ldx	#test
+		ldx	#color_loop
 		stx	TIMER0_VECTOR_INDIRECT
 
 ; copy logo data (actually rom to vram so we have logo visible to blitter)
@@ -84,7 +84,7 @@ exc_reset:	; set stackpointers
 		lda	#%00000001
 		sta	TIMER_CR	; activate timer 0
 
-		lda	#%00000011	; core frame done & rom insert irq's
+		lda	#%00000111	; core frame_done, load_bin and load_lua irqs enabled
 		sta	CORE_CR
 
 		andcc	#%11101111	; enable irq's
@@ -94,7 +94,7 @@ exc_reset:	; set stackpointers
 .2		sync
 		bra	.2		; endless loop to sync
 
-test:		lda	$05c1
+color_loop:	lda	$05c1
 		ldx	#$05c2
 .1		ldb	,x
 		stb	,-x
@@ -113,7 +113,7 @@ init_vectors:	pshu	y,x,b,a
 		std	,y
 		leax	2,x
 		leay	2,y
-		cmpx	#vector_table+36
+		cmpx	#vector_table+38
 		bne	.1
 
 		pulu	y,x,b,a
@@ -139,3 +139,4 @@ vector_table:	dw	exc_illop
 
 		dw	core_frame_done_irq
 		dw	core_load_bin_irq
+		dw	core_load_lua_irq

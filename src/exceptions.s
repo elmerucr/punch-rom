@@ -7,6 +7,7 @@
 		global	exc_irq
 		global	exc_swi
 		global	exc_nmi
+		global	exc_irq_lua
 
 		section	TEXT
 
@@ -16,8 +17,8 @@ exc_swi2:
 exc_firq:	rti
 
 exc_irq:	lda	TIMER_SR
-		beq	exc_irq_core_frame_done	; no timer -> check for core irq
-		ldx	#TIMER0_VECTOR_INDIRECT	; it is the timer
+		beq	exc_irq_core_frame_done	; not timer -> check for core irq
+		ldx	#TIMER0_VECTOR_INDIRECT	; it is one of the timers, load x with address of first vector
 		lda	#%00000001
 exc_test_tim:	bita	TIMER_SR
 		beq	exc_next_tim
@@ -25,23 +26,42 @@ exc_test_tim:	bita	TIMER_SR
 		jmp	[,x]
 exc_next_tim:	asla
 		beq	exc_irq_end
-		leax	2,x
+		leax	2,x		; load x with address of next vector
 		bra	exc_test_tim
 exc_irq_core_frame_done:
 		lda	CORE_SR
 		beq	exc_irq_end	; no core end irq
 		lda	#%00000001
 		bita	CORE_SR
-		beq	exc_irq_core_ri
+		beq	exc_irq_core_load_bin
 		sta	CORE_SR
 		jmp	[CORE_FRAME_DONE_VECTOR_INDIRECT]
-exc_irq_core_ri:
+exc_irq_core_load_bin:
 		lda	#%00000010
+		bita	CORE_SR
+		beq	exc_irq_core_load_lua
+		sta	CORE_SR
+		jmp	[CORE_LOAD_BIN_VECTOR_INDIRECT]
+exc_irq_core_load_lua:
+		lda	#%00000100
 		bita	CORE_SR
 		beq	exc_irq_end
 		sta	CORE_SR
-		jmp	[CORE_LOAD_BIN_VECTOR_INDIRECT]
+		jmp	[CORE_LOAD_LUA_VECTOR_INDIRECT]
 exc_irq_end:	rti
 
 exc_swi:
 exc_nmi:	rti
+
+exc_irq_lua:
+		lda	TIMER_SR
+		beq	no_timer
+		sta	TIMER_SR
+		sta	MOON_CR_TIMERS
+no_timer:	lda	CORE_SR
+		cmpa	#%00000001
+		bne	exc_irq_lua_end
+		sta	CORE_SR
+		sta	MOON_CR
+exc_irq_lua_end:
+		rti
