@@ -6,7 +6,7 @@
 
 		section	TEXT
 
-rom_version:	db	'punch rom v0.3 20240620',0
+rom_version:	db	'punch rom v0.4 20240724',0
 
 exc_reset:	; set stackpointers
 		lds	#$0400		; this write to sp will enable nmi's as well
@@ -84,7 +84,7 @@ exc_reset:	; set stackpointers
 		lda	#%00000001
 		sta	TIMER_CR	; activate timer 0
 
-		lda	#%00000111	; core frame_done, load_bin and load_lua irqs enabled
+		lda	#%00001111	; core frame_done, load_bin, load_lua and load_squirrel irqs enabled
 		sta	CORE_CR
 
 		andcc	#%11101111	; enable irq's
@@ -113,7 +113,7 @@ init_vectors:	pshu	y,x,b,a
 		std	,y
 		leax	2,x
 		leay	2,y
-		cmpx	#vector_table+38
+		cmpx	#vector_table+40
 		bne	.1
 
 		pulu	y,x,b,a
@@ -140,3 +140,4 @@ vector_table:	dw	exc_illop
 		dw	core_frame_done_irq
 		dw	core_load_bin_irq
 		dw	core_load_lua_irq
+		dw	core_load_squirrel_irq

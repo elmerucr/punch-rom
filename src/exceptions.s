@@ -8,6 +8,7 @@
 		global	exc_swi
 		global	exc_nmi
 		global	exc_irq_lua
+		global	exc_irq_squirrel
 
 		section	TEXT
 
@@ -45,9 +46,15 @@ exc_irq_core_load_bin:
 exc_irq_core_load_lua:
 		lda	#%00000100
 		bita	CORE_SR
-		beq	exc_irq_end
+		beq	exc_irq_core_load_squirrel
 		sta	CORE_SR
 		jmp	[CORE_LOAD_LUA_VECTOR_INDIRECT]
+exc_irq_core_load_squirrel:
+		lda	#%00001000
+		bita	CORE_SR
+		beq	exc_irq_end
+		sta	CORE_SR
+		jmp	[CORE_LOAD_SQ_VECTOR_INDIRECT]
 exc_irq_end:	rti
 
 exc_swi:
@@ -55,13 +62,26 @@ exc_nmi:	rti
 
 exc_irq_lua:
 		lda	TIMER_SR
-		beq	no_timer
+		beq	.1		; no_timer
 		sta	TIMER_SR
-		sta	MOON_CR_TIMERS
-no_timer:	lda	CORE_SR
+		sta	COMMANDER_LUA_CR_TIMERS
+.1		lda	CORE_SR
 		cmpa	#%00000001
 		bne	exc_irq_lua_end
 		sta	CORE_SR
-		sta	MOON_CR
+		sta	COMMANDER_LUA_CR
 exc_irq_lua_end:
+		rti
+
+exc_irq_squirrel:
+		lda	TIMER_SR
+		beq	.1		; no_timer
+		sta	TIMER_SR
+		sta	COMMANDER_SQ_CR_TIMERS
+.1		lda	CORE_SR
+		cmpa	#%00000001
+		bne	exc_irq_squirrel_end
+		sta	CORE_SR
+		sta	COMMANDER_LUA_CR
+exc_irq_squirrel_end:
 		rti
