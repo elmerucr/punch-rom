@@ -82,6 +82,6 @@ exc_irq_squirrel:
 		cmpa	#%00000001
 		bne	exc_irq_squirrel_end
 		sta	CORE_SR
-		sta	COMMANDER_LUA_CR
+		sta	COMMANDER_SQ_CR
 exc_irq_squirrel_end:
 		rti
