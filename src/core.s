@@ -34,24 +34,6 @@ core_load_bin_irq:
 	sta	$04c1
 	rti
 
-core_load_lua_irq:
-	; alternative irq routine that connects to commander lua
-
-	; turn off all timer interrupts
-	clr	TIMER_CR
-	; turn off all core interrupts
-	clr	CORE_CR
-
-	orcc	#%00010000	; disable irqs
-	ldx	#exc_irq_lua
-	stx	VECTOR_IRQ_INDIRECT
-	andcc	#%11101111	; enable irqs
-
-	lda	#%10000000
-	sta	COMMANDER_LUA_CR	; run init in lua script
-
-	rti
-
 core_load_squirrel_irq:
 	; alternative irq routine that connects to commander lua
 

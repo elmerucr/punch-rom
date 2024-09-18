@@ -139,5 +139,5 @@ vector_table:	dw	exc_illop
 
 		dw	core_frame_done_irq
 		dw	core_load_bin_irq
-		dw	core_load_lua_irq
+		dw	$0000
 		dw	core_load_squirrel_irq
