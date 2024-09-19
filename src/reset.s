@@ -113,7 +113,7 @@ init_vectors:	pshu	y,x,b,a
 		std	,y
 		leax	2,x
 		leay	2,y
-		cmpx	#vector_table+40
+		cmpx	#vector_table+48
 		bne	.1
 
 		pulu	y,x,b,a
@@ -141,3 +141,7 @@ vector_table:	dw	exc_illop
 		dw	core_load_bin_irq
 		dw	$0000
 		dw	core_load_squirrel_irq
+		dw	$0000
+		dw	$0000
+		dw	$0000
+		dw	$0000

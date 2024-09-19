@@ -6,7 +6,7 @@ VECTOR_FIRQ_INDIRECT	equ	$0106
 VECTOR_IRQ_INDIRECT	equ	$0108
 VECTOR_SWI_INDIRECT	equ	$010a
 VECTOR_NMI_INDIRECT	equ	$010c
-; $010e unused
+; $010e unused and reserved
 
 TIMER0_VECTOR_INDIRECT	equ	$0110
 TIMER1_VECTOR_INDIRECT	equ	$0112
@@ -19,7 +19,12 @@ TIMER7_VECTOR_INDIRECT	equ	$011e
 
 CORE_FRAME_DONE_VECTOR_INDIRECT	equ	$0120
 CORE_LOAD_BIN_VECTOR_INDIRECT	equ	$0122
+; $0124 unused and reserved
 CORE_LOAD_SQ_VECTOR_INDIRECT	equ	$0126
+; $0128 unused and reserved
+; $012a unused and reserved
+; $012c unused and reserved
+; $012e unused and reserved
 
 COMMANDER		equ	$0b00
 COMMANDER_SQ_SR		equ	COMMANDER
