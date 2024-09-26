@@ -77,6 +77,7 @@ S_B_2		equ	$a
 S_B_3		equ	$b
 S_F_0		equ	$c
 S_F_1		equ	$d
+S_F_2		equ	$e
 S_INDEX		equ	$f
 
 ; timer

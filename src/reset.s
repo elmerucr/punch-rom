@@ -23,6 +23,7 @@ exc_reset:	; set stackpointers
 		sta	BLITTER_S_C+S_F_0
 		lda	#%00000001
 		sta	BLITTER_S_C+S_F_1
+		clr	BLITTER_S_C+S_F_2
 		clr	BLITTER_S_C+S_B_0
 		clr	BLITTER_S_C+S_B_1
 		ldx	#punch_icon
