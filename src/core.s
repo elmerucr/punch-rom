@@ -8,15 +8,15 @@
 		section	TEXT
 
 core_frame_done_irq:
-	lda	#$0f		; refer to surface 7
+	lda	#$0f		; refer to surface 7 (frame buffer)
 	sta	BLITTER_DST	; store in index1
-	clr	BLITTER_COLOR
+	clr	BLITTER_COLOR	; set color to black
 	lda	#%00000100	; clear surface
 	sta	BLITTER_CR
 
-	lda	#$0c
+	lda	#$0c		; set source surface to logo
 	sta	BLITTER_SRC
-	lda	#%00000001
+	lda	#%00000001	; and blit this to the framebuffer
 	sta	BLITTER_CR
 
 	lda	#$0e

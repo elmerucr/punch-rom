@@ -6,11 +6,11 @@
 
 		section	TEXT
 
-rom_version:	db	'punch rom v0.4 20240919',0
+rom_version:	db	'punch rom v0.4 20240929',0
 
 exc_reset:	; set stackpointers
 		lds	#$0400		; this write to sp will enable nmi's as well
-		ldu	#$f000		; initial value might be changed by software
+		ldu	#$fc00		; initial value might be changed by software
 
 		jsr	init_vectors
 
@@ -53,11 +53,8 @@ exc_reset:	; set stackpointers
 		lda	#$32
 		sta	$05d1
 
-		;lda	#$00
 		clr	$05c1
-		;lda	#$00
 		clr	$05c2
-		;lda	#$00
 		clr	$05c3
 		lda	#$11
 		sta	$05c4
@@ -80,11 +77,13 @@ exc_reset:	; set stackpointers
 		cmpx	#$0000
 		bne	.1
 
+; set timer
 		ldd	#600		; 100 bpm
 		std	TIMER0_BPM
 		lda	#%00000001
 		sta	TIMER_CR	; activate timer 0
 
+; activate interrupts
 		lda	#%00001111	; core frame_done, load_bin, load_lua and load_squirrel irqs enabled
 		sta	CORE_CR
 
