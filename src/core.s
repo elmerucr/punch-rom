@@ -2,7 +2,6 @@
 
 		global	core_frame_done_irq
 		global	core_load_bin_irq
-		global	core_load_lua_irq
 		global	core_load_squirrel_irq
 
 		section	TEXT
