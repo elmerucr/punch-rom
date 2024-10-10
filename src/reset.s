@@ -30,7 +30,7 @@ exc_reset:	; set stackpointers
 		stx	BLITTER_S_C+S_B_2
 		ldd	#153
 		std	BLITTER_S_C+S_X
-		ldd	#73
+		ldd	#83
 		std	BLITTER_S_C+S_Y
 
 		; tiles in $d
@@ -47,7 +47,7 @@ exc_reset:	; set stackpointers
 		stx	BLITTER_S_D+S_B_2
 		ldd	#151
 		std	BLITTER_S_D+S_X
-		ldd	#94
+		ldd	#104
 		std	BLITTER_S_D+S_Y
 
 		lda	#$32
