@@ -6,7 +6,7 @@
 
 		section	TEXT
 
-rom_version:	db	'punch rom v0.4 20240929',0
+rom_version:	db	'punch rom v0.4 20241027',0
 
 exc_reset:	; set stackpointers
 		lds	#$0400		; this write to sp will enable nmi's as well
@@ -78,7 +78,7 @@ exc_reset:	; set stackpointers
 		bne	.1
 
 ; set timer
-		ldd	#600		; 100 bpm
+		ldd	#600		; 600 bpm
 		std	TIMER0_BPM
 		lda	#%00000001
 		sta	TIMER_CR	; activate timer 0
