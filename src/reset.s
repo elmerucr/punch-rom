@@ -51,21 +51,21 @@ exc_reset:	; set stackpointers
 		std	BLITTER_S_D+S_Y
 
 		lda	#$32
-		sta	$05d1
+		sta	$11d1
 
-		clr	$05c1
-		clr	$05c2
-		clr	$05c3
+		clr	$11c1
+		clr	$11c2
+		clr	$11c3
 		lda	#$11
-		sta	$05c4
+		sta	$11c4
 		lda	#$22
-		sta	$05c5
+		sta	$11c5
 		lda	#$33
-		sta	$05c6
+		sta	$11c6
 		lda	#$22
-		sta	$05c7
+		sta	$11c7
 		lda	#$11
-		sta	$05c8
+		sta	$11c8
 
 		ldx	#color_loop
 		stx	TIMER0_VECTOR_INDIRECT
@@ -94,14 +94,14 @@ exc_reset:	; set stackpointers
 .2		sync
 		bra	.2		; endless loop to sync
 
-color_loop:	lda	$05c1
-		ldx	#$05c2
+color_loop:	lda	$11c1
+		ldx	#$11c2
 .1		ldb	,x
 		stb	,-x
 		leax	2,x
-		cmpx	#$05c9
+		cmpx	#$11c9
 		bne	.1
-		sta	$05c8
+		sta	$11c8
 
 		rti
 

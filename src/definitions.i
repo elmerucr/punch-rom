@@ -32,7 +32,7 @@ COMMANDER_SQ_CR		equ	COMMANDER+$01
 COMMANDER_SQ_CR_TIMERS	equ	COMMANDER+$02
 
 ; system
-CORE		equ	$0800
+CORE		equ	$0400
 CORE_SR		equ	CORE
 CORE_CR		equ	CORE+$01
 CORE_FB_BASE_0	equ	CORE+$04
@@ -58,14 +58,14 @@ BLITTER_X1	equ	BLITTER+$0c
 BLITTER_Y1	equ	BLITTER+$0e
 
 ; blitter surfaces
-BLITTER_S_0	equ	$0400
-BLITTER_S_1	equ	$0410
+BLITTER_S_0	equ	$1000
+BLITTER_S_1	equ	$1010
 ;
 ;
-BLITTER_S_C	equ	$04c0
-BLITTER_S_D	equ	$04d0
-BLITTER_S_E	equ	$04e0
-BLITTER_S_F	equ	$04f0
+BLITTER_S_C	equ	$10c0
+BLITTER_S_D	equ	$10d0
+BLITTER_S_E	equ	$10e0
+BLITTER_S_F	equ	$10f0
 
 S_X		equ	$0
 S_Y		equ	$2
@@ -94,7 +94,7 @@ TIMER6_BPM	equ	TIMER+$1c
 TIMER7_BPM	equ	TIMER+$1e
 
 ; sound / sid / analog / mixer
-SND	equ	$0c00
+SND	equ	$0600
 
 SID0	equ	SND		; sid0 base
 SID0F	equ	SID0+$00
