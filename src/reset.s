@@ -6,7 +6,7 @@
 
 		section	TEXT
 
-rom_version:	db	'punch rom v0.4 20241027',0
+rom_version:	db	'punch rom v0.4 20241124',0
 
 exc_reset:	; set stackpointers
 		lds	#$0400		; this write to sp will enable nmi's as well
@@ -19,7 +19,7 @@ exc_reset:	; set stackpointers
 		std	BLITTER_S_C+S_W
 		ldd	#$0012
 		std	BLITTER_S_C+S_H
-		lda	#%00010000
+		lda	#%00010000			; 2 bit color mode = 4 colors
 		sta	BLITTER_S_C+S_F_0
 		lda	#%00000001
 		sta	BLITTER_S_C+S_F_1
@@ -51,7 +51,7 @@ exc_reset:	; set stackpointers
 		std	BLITTER_S_D+S_Y
 
 		lda	#$32
-		sta	$0bd1
+		sta	$0bd1	; fg color for text?
 
 		clr	$0bc1
 		clr	$0bc2

@@ -7,10 +7,11 @@
 		section	TEXT
 
 core_frame_done_irq:
-	;lda	#$0f		; refer to surface 7 (frame buffer)
-	;sta	BLITTER_DST	; store in index1
 	clr	BLITTER_DST	; surface 0 (screen buffer) will be the destination
-	clr	BLITTER_COLOR	; set color to black
+
+	lda	#$01
+	sta	BLITTER_COLOR	; set color to black
+
 	lda	#%00000100	; clear surface
 	sta	BLITTER_CR
 
