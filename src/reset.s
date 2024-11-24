@@ -38,8 +38,10 @@ exc_reset:	; set stackpointers
 		std	BLITTER_S_D+S_W
 		ldd	#$0001
 		std	BLITTER_S_D+S_H
-		lda	#%00000010
-		sta	BLITTER_S_D+S_F_0
+
+		lda	#%00000011
+		sta	BLITTER_S_D+S_F_0	;
+
 		clr	BLITTER_S_D+S_F_1
 		clr	BLITTER_S_D+S_B_0
 		clr	BLITTER_S_D+S_B_1
@@ -51,21 +53,29 @@ exc_reset:	; set stackpointers
 		std	BLITTER_S_D+S_Y
 
 		lda	#$32
-		sta	$0bd1	; fg color for text?
+		sta	$1d01	; fg color for text
 
-		clr	$0bc1
-		clr	$0bc2
-		clr	$0bc3
+		;clr	$0bc1
+		;clr	$0bc2
+		;clr	$0bc3
+		clr	$1c01
+		clr	$1c02
+		clr	$1c03
 		lda	#$11
-		sta	$0bc4
+		;sta	$0bc4
+		sta	$1c04
 		lda	#$22
-		sta	$0bc5
+		;sta	$0bc5
+		sta	$1c05
 		lda	#$33
-		sta	$0bc6
+		;sta	$0bc6
+		sta	$1c06
 		lda	#$22
-		sta	$0bc7
+		;sta	$0bc7
+		sta	$1c07
 		lda	#$11
-		sta	$0bc8
+		;sta	$0bc8
+		sta	$1c08
 
 		ldx	#color_loop
 		stx	TIMER0_VECTOR_INDIRECT
@@ -94,14 +104,14 @@ exc_reset:	; set stackpointers
 .2		sync
 		bra	.2		; endless loop to sync
 
-color_loop:	lda	$0bc1
-		ldx	#$0bc2
+color_loop:	lda	$1c01
+		ldx	#$1c02
 .1		ldb	,x
 		stb	,-x
 		leax	2,x
-		cmpx	#$0bc9
+		cmpx	#$1c09
 		bne	.1
-		sta	$0bc8
+		sta	$1c08
 
 		rti
 
