@@ -6,7 +6,7 @@
 
 		section	TEXT
 
-rom_version:	db	'punch rom v0.4 20241124',0
+rom_version:	db	'punch rom v0.4 20241210',0
 
 exc_reset:	; set stackpointers
 		lds	#$0400		; this write to sp will enable nmi's as well
@@ -28,9 +28,9 @@ exc_reset:	; set stackpointers
 		clr	BLITTER_S_C+S_B_1
 		ldx	#punch_icon
 		stx	BLITTER_S_C+S_B_2
-		ldd	#153
+		ldd	#137
 		std	BLITTER_S_C+S_X
-		ldd	#83
+		ldd	#64
 		std	BLITTER_S_C+S_Y
 
 		; tiles in $d
@@ -47,9 +47,9 @@ exc_reset:	; set stackpointers
 		clr	BLITTER_S_D+S_B_1
 		ldx	#rom_version
 		stx	BLITTER_S_D+S_B_2
-		ldd	#151
+		ldd	#135
 		std	BLITTER_S_D+S_X
-		ldd	#104
+		ldd	#85
 		std	BLITTER_S_D+S_Y
 
 		lda	#$32
